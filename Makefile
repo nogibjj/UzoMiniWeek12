@@ -2,6 +2,8 @@
 IMAGE_NAME = Uzo_demo
 DOCKER_ID_USER = zozo7070
 
+#Add Personal Access Token to Github ACtion Secrets
+
 # Build the Docker image
 build:
 	docker build -t $(IMAGE_NAME) .
