@@ -1,4 +1,4 @@
-#Change and configure your own app 
+#Change and configure your own app !
 from flask import Flask
 
 app = Flask(__name__)
