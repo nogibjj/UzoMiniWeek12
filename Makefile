@@ -23,7 +23,7 @@ container_show:
 	docker ps
 
 push:
-	docker login
+#	docker login
 	docker tag $(IMAGE_NAME) $(DOCKER_ID_USER)/$(IMAGE_NAME)
 	docker push $(DOCKER_ID_USER)/$(IMAGE_NAME):latest
 
