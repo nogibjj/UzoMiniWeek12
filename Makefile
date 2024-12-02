@@ -1,5 +1,5 @@
 # Define the image name
-IMAGE_NAME = Uzo_demo
+IMAGE_NAME = uzo_demo
 DOCKER_ID_USER = zozo7070
 
 #Add Personal Access Token to Github ACtion Secrets
