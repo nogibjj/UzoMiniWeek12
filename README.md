@@ -90,3 +90,5 @@ When you visit the application, you’ll see a simple form. After entering your 
 
 ---
 
+The image has been created and stored on Docker see the confirmation below. 
+![Screenshot](image.png)
