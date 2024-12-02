@@ -1,50 +1,43 @@
-# Change and configure your own app !
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template_string
+import random
 
 app = Flask(__name__)
 
-# In-memory storage for expenses
-expenses = []
+# HTML template for the web interface
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Number Generator</title>
+</head>
+<body>
+    <h1>Random Number Generator</h1>
+    <h2>Generate a Random Number</h2>
+    <form action="/generate" method="post">
+        <label for="min">Min:</label>
+        <input type="number" id="min" name="min" value="1" required><br><br>
+        <label for="max">Max:</label>
+        <input type="number" id="max" name="max" value="100" required><br><br>
+        <button type="submit">Generate</button>
+    </form>
+</body>
+</html>
+"""
 
-
-@app.route("/")
+@app.route('/')
 def home():
-    return "Welcome to the Personal Expense Tracker!"
+    return HTML_TEMPLATE
 
+@app.route('/generate', methods=['POST'])
+def generate_number():
+    min_value = int(request.form.get('min', 1))
+    max_value = int(request.form.get('max', 100))
+    
+    if min_value >= max_value:
+        return "Invalid range! Min must be less than Max.", 400
+    
+    number = random.randint(min_value, max_value)
+    return f"<h1>Generated Random Number: {number}</h1>"
 
-# Add a new expense
-@app.route("/expenses", methods=["POST"])
-def add_expense():
-    data = request.json
-    if "description" not in data or "amount" not in data or "date" not in data:
-        return (
-            jsonify({"error": "Expense must have a description, amount, and date"}),
-            400,
-        )
-
-    expense = {
-        "id": len(expenses) + 1,
-        "description": data["description"],
-        "amount": data["amount"],
-        "date": data["date"],
-    }
-    expenses.append(expense)
-    return jsonify(expense), 201
-
-
-# Get all expenses
-@app.route("/expenses", methods=["GET"])
-def get_expenses():
-    return jsonify(expenses)
-
-
-# Delete an expense by ID
-@app.route("/expenses/<int:expense_id>", methods=["DELETE"])
-def delete_expense(expense_id):
-    global expenses
-    expenses = [expense for expense in expenses if expense["id"] != expense_id]
-    return jsonify({"message": "Expense deleted"}), 200
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
